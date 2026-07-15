@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Inter", sans-serif;
+  --color-accent-gold: #D4AF37;
+  --color-accent-gold-hover: #C9A227;
+  --color-dark-bg: #0a0a0a;
+  --color-dark-card: rgba(10, 10, 10, 0.55);
+  --color-gold-border: rgba(212, 175, 55, 0.3);
+  --color-gold-glow: rgba(212, 175, 55, 0.15);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-dark-bg);
+  font-family: var(--font-sans);
+  color: #f3f4f6;
+  overflow: hidden; /* Prevent body scroll because the scroll-container does it */
+}
+
+/* Hide standard scrollbars for a clean portfolio look */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glassmorphism effects */
+.glass-panel {
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 20px 0 rgba(212, 175, 55, 0.05);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s ease;
+}
+.glass-panel-hover:hover {
+  border-color: rgba(212, 175, 55, 0.45);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7), 0 0 25px 0 rgba(212, 175, 55, 0.15);
+}
+
+/* Custom transitions */
+.fade-transition {
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
