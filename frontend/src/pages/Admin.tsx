@@ -265,7 +265,7 @@ export const Admin: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-dark-bg text-white font-sans pb-16 relative">
+    <div className="w-full h-screen overflow-y-auto bg-dark-bg text-white font-sans pb-16 relative">
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed top-6 right-6 z-50 animate-bounce">
