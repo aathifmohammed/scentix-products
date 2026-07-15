@@ -6,6 +6,7 @@ import { FilterBar } from '../components/FilterBar';
 import type { FilterState } from '../components/FilterBar';
 import { ProductCard } from '../components/ProductCard';
 import { SplashLoader } from '../components/SplashLoader';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface ScrollSectionProps {
   product: Product;
@@ -133,6 +134,15 @@ export const Showcase: React.FC = () => {
     setActiveFilter(filter);
   };
 
+  const scrollToIndex = (idx: number) => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: idx * window.innerHeight,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-dark-bg font-sans">
       <AnimatePresence>
@@ -213,28 +223,58 @@ export const Showcase: React.FC = () => {
         </div>
       )}
 
-      {/* 4. Elegant Bottom Scroll Progress Indicator */}
+      {/* 4. Elegant Scroll Progress Indicators */}
       {filteredProducts.length > 1 && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20 select-none">
-          {filteredProducts.map((_, idx) => (
+        <>
+          {/* Desktop/Laptop Vertical Scroll Dots on the Right */}
+          <div className="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-3.5 z-20 select-none">
+            {filteredProducts.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => scrollToIndex(idx)}
+                className={`w-1.5 transition-all duration-300 rounded-full cursor-pointer ${
+                  idx === activeIndex
+                    ? 'h-6 bg-accent-gold shadow-[0_0_8px_#D4AF37]'
+                    : 'h-2 bg-white/20 hover:bg-white/40'
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Mobile 3-Button Controller at the Bottom */}
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 lg:hidden flex items-center justify-between glass-panel rounded-full px-4 py-2.5 gap-3 z-20 select-none">
+            {/* Back Button */}
             <button
-              key={idx}
-              onClick={() => {
-                if (scrollContainerRef.current) {
-                  scrollContainerRef.current.scrollTo({
-                    top: idx * window.innerHeight,
-                    behavior: 'smooth',
-                  });
-                }
-              }}
-              className={`h-1.5 transition-all duration-300 rounded-full cursor-pointer ${
-                idx === activeIndex
-                  ? 'w-6 bg-accent-gold shadow-[0_0_8px_#D4AF37]'
-                  : 'w-2 bg-white/20 hover:bg-white/40'
+              onClick={() => activeIndex > 0 && scrollToIndex(activeIndex - 1)}
+              disabled={activeIndex === 0}
+              className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all cursor-pointer ${
+                activeIndex === 0
+                  ? 'border-white/5 text-gray-600 cursor-not-allowed opacity-30'
+                  : 'border-white/10 text-gray-300 hover:text-accent-gold hover:border-accent-gold/40 active:scale-90'
               }`}
-            />
-          ))}
-        </div>
+            >
+              <ChevronLeft size={16} />
+            </button>
+
+            {/* Center fraction page indicator */}
+            <span className="font-serif text-accent-gold tracking-widest text-xs font-semibold px-2 min-w-[70px] text-center">
+              {String(activeIndex + 1).padStart(2, '0')} / {String(filteredProducts.length).padStart(2, '0')}
+            </span>
+
+            {/* Forward Button */}
+            <button
+              onClick={() => activeIndex < filteredProducts.length - 1 && scrollToIndex(activeIndex + 1)}
+              disabled={activeIndex === filteredProducts.length - 1}
+              className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all cursor-pointer ${
+                activeIndex === filteredProducts.length - 1
+                  ? 'border-white/5 text-gray-600 cursor-not-allowed opacity-30'
+                  : 'border-white/10 text-gray-300 hover:text-accent-gold hover:border-accent-gold/40 active:scale-90'
+              }`}
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

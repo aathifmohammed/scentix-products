@@ -66,32 +66,32 @@ export const FilterBar: React.FC<FilterBarProps> = ({ activeFilter, onChangeFilt
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+    <nav className="fixed z-50 transition-all duration-300 top-0 left-0 w-full lg:top-1/2 lg:left-6 lg:w-64 lg:h-auto lg:-translate-y-1/2">
       {/* Main Bar */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-4">
-        <div className="glass-panel rounded-full px-6 py-3 flex items-center justify-between transition-all duration-300">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-0 mt-4 lg:mt-0">
+        <div className="glass-panel rounded-full lg:rounded-[32px] px-6 lg:px-5 py-3 lg:py-8 flex lg:flex-col lg:items-start lg:gap-8 justify-between transition-all duration-300">
           
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
+          <div className="flex-shrink-0 flex items-center lg:w-full lg:justify-center lg:border-b lg:border-white/5 lg:pb-6">
             <span className="font-serif text-2xl font-bold tracking-widest text-accent-gold cursor-pointer select-none">
               SCENTIX
             </span>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-1 lg:space-x-4 items-center">
+          <div className="hidden lg:flex lg:flex-col lg:space-x-0 lg:space-y-3 lg:w-full space-x-1 items-center lg:items-stretch">
             {menuItems.map((item) => {
               const active = isFilterActive(item.id);
               return (
                 <div
                   key={item.id}
-                  className="relative group py-2"
+                  className="relative group py-2 lg:py-1 lg:w-full"
                   onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.id)}
                   onMouseLeave={() => item.hasDropdown && setActiveDropdown(null)}
                 >
                   <button
                     onClick={() => handleItemClick(item.id, item.hasDropdown)}
-                    className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs lg:text-sm font-medium transition-all duration-300 select-none cursor-pointer ${
+                    className={`flex items-center justify-between lg:justify-between w-full lg:w-full gap-1.5 px-3 lg:px-4 py-1.5 lg:py-2.5 rounded-full lg:rounded-xl text-xs lg:text-sm font-medium transition-all duration-300 select-none cursor-pointer ${
                       active
                         ? 'text-accent-gold bg-accent-gold/10 border border-accent-gold/30 shadow-[0_0_12px_rgba(212,175,55,0.2)]'
                         : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
@@ -101,7 +101,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({ activeFilter, onChangeFilt
                     {item.hasDropdown && (
                       <ChevronDown
                         size={14}
-                        className={`transition-transform duration-300 ${
+                        className={`transition-transform duration-300 lg:ml-auto ${
                           activeDropdown === item.id ? 'rotate-180' : ''
                         }`}
                       />
@@ -111,7 +111,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({ activeFilter, onChangeFilt
                   {/* Dropdown Menu */}
                   {item.hasDropdown && (
                     <div
-                      className={`absolute left-1/2 -translate-x-1/2 mt-2 w-40 rounded-2xl glass-panel py-2 shadow-2xl transition-all duration-300 origin-top z-50 ${
+                      className={`absolute left-1/2 lg:left-full -translate-x-1/2 lg:translate-x-0 lg:top-0 lg:ml-3 mt-2 lg:mt-0 w-40 rounded-2xl glass-panel py-2 shadow-2xl transition-all duration-300 origin-top lg:origin-left z-50 ${
                         activeDropdown === item.id
                           ? 'opacity-100 scale-100 pointer-events-auto'
                           : 'opacity-0 scale-95 pointer-events-none'
@@ -145,14 +145,14 @@ export const FilterBar: React.FC<FilterBarProps> = ({ activeFilter, onChangeFilt
           </div>
 
           {/* Active Filter Label (Mobile Display) */}
-          <div className="md:hidden flex items-center">
+          <div className="lg:hidden flex items-center">
             <span className="text-xs font-semibold text-accent-gold bg-accent-gold/10 border border-accent-gold/20 rounded-full px-3 py-1 font-sans">
               {getActiveLabel()}
             </span>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          <div className="lg:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="text-gray-400 hover:text-accent-gold p-2 rounded-full hover:bg-white/5 transition-all select-none cursor-pointer"
@@ -165,7 +165,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({ activeFilter, onChangeFilt
 
       {/* Mobile Menu Panel */}
       <div
-        className={`md:hidden fixed inset-x-4 top-20 rounded-3xl glass-panel shadow-2xl p-4 transition-all duration-300 origin-top z-40 ${
+        className={`lg:hidden fixed inset-x-4 top-20 rounded-3xl glass-panel shadow-2xl p-4 transition-all duration-300 origin-top z-40 ${
           mobileMenuOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'
         }`}
       >
