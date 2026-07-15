@@ -6,7 +6,7 @@ import { FilterBar } from '../components/FilterBar';
 import type { FilterState } from '../components/FilterBar';
 import { ProductCard } from '../components/ProductCard';
 import { SplashLoader } from '../components/SplashLoader';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
 
 interface ScrollSectionProps {
   product: Product;
@@ -178,7 +178,18 @@ export const Showcase: React.FC = () => {
       </div>
 
       {/* 2. Top Filter Navigation Bar */}
-      <FilterBar activeFilter={activeFilter} onChangeFilter={handleFilterChange} />
+      <AnimatePresence>
+        {!showSplash && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: 'easeInOut' }}
+          >
+            <FilterBar activeFilter={activeFilter} onChangeFilter={handleFilterChange} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 3. Main Scroll-driven showcase viewport */}
       {loading ? (
@@ -226,19 +237,44 @@ export const Showcase: React.FC = () => {
       {/* 4. Elegant Scroll Progress Indicators */}
       {filteredProducts.length > 1 && (
         <>
-          {/* Desktop/Laptop Vertical Scroll Dots on the Right */}
-          <div className="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-3.5 z-20 select-none">
-            {filteredProducts.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => scrollToIndex(idx)}
-                className={`w-1.5 transition-all duration-300 rounded-full cursor-pointer ${
-                  idx === activeIndex
-                    ? 'h-6 bg-accent-gold shadow-[0_0_8px_#D4AF37]'
-                    : 'h-2 bg-white/20 hover:bg-white/40'
-                }`}
-              />
-            ))}
+          {/* Desktop/Laptop Vertical 3-Button Controller on the Right */}
+          <div className="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center justify-between glass-panel rounded-full py-4 px-2.5 gap-2.5 z-20 select-none shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] border border-white/10">
+            {/* Back/Up Button */}
+            <button
+              onClick={() => activeIndex > 0 && scrollToIndex(activeIndex - 1)}
+              disabled={activeIndex === 0}
+              className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all cursor-pointer ${
+                activeIndex === 0
+                  ? 'border-white/5 text-gray-600 cursor-not-allowed opacity-30'
+                  : 'border-white/10 text-gray-300 hover:text-accent-gold hover:border-accent-gold/40 hover:shadow-[0_0_8px_rgba(212,175,55,0.3)] active:scale-90 bg-black/20'
+              }`}
+            >
+              <ChevronUp size={14} />
+            </button>
+
+            {/* Vertical fraction page indicator */}
+            <div className="flex flex-col items-center py-1 font-serif text-accent-gold select-none">
+              <span className="text-[11px] font-bold tracking-wider leading-none">
+                {String(activeIndex + 1).padStart(2, '0')}
+              </span>
+              <span className="h-[1px] w-3 bg-accent-gold/30 my-1.5" />
+              <span className="text-[9px] text-gray-500 font-medium leading-none">
+                {String(filteredProducts.length).padStart(2, '0')}
+              </span>
+            </div>
+
+            {/* Forward/Down Button */}
+            <button
+              onClick={() => activeIndex < filteredProducts.length - 1 && scrollToIndex(activeIndex + 1)}
+              disabled={activeIndex === filteredProducts.length - 1}
+              className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all cursor-pointer ${
+                activeIndex === filteredProducts.length - 1
+                  ? 'border-white/5 text-gray-600 cursor-not-allowed opacity-30'
+                  : 'border-white/10 text-gray-300 hover:text-accent-gold hover:border-accent-gold/40 hover:shadow-[0_0_8px_rgba(212,175,55,0.3)] active:scale-90 bg-black/20'
+              }`}
+            >
+              <ChevronDown size={14} />
+            </button>
           </div>
 
           {/* Mobile 3-Button Controller at the Bottom */}
@@ -250,7 +286,7 @@ export const Showcase: React.FC = () => {
               className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all cursor-pointer ${
                 activeIndex === 0
                   ? 'border-white/5 text-gray-600 cursor-not-allowed opacity-30'
-                  : 'border-white/10 text-gray-300 hover:text-accent-gold hover:border-accent-gold/40 active:scale-90'
+                  : 'border-white/10 text-gray-300 hover:text-accent-gold hover:border-accent-gold/40 active:scale-90 bg-black/20'
               }`}
             >
               <ChevronLeft size={16} />
@@ -268,7 +304,7 @@ export const Showcase: React.FC = () => {
               className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all cursor-pointer ${
                 activeIndex === filteredProducts.length - 1
                   ? 'border-white/5 text-gray-600 cursor-not-allowed opacity-30'
-                  : 'border-white/10 text-gray-300 hover:text-accent-gold hover:border-accent-gold/40 active:scale-90'
+                  : 'border-white/10 text-gray-300 hover:text-accent-gold hover:border-accent-gold/40 active:scale-90 bg-black/20'
               }`}
             >
               <ChevronRight size={16} />

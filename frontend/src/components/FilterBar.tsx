@@ -111,32 +111,34 @@ export const FilterBar: React.FC<FilterBarProps> = ({ activeFilter, onChangeFilt
                   {/* Dropdown Menu */}
                   {item.hasDropdown && (
                     <div
-                      className={`absolute left-1/2 lg:left-full -translate-x-1/2 lg:translate-x-0 lg:top-0 lg:ml-3 mt-2 lg:mt-0 w-40 rounded-2xl glass-panel py-2 shadow-2xl transition-all duration-300 origin-top lg:origin-left z-50 ${
+                      className={`absolute left-1/2 lg:left-full -translate-x-1/2 lg:translate-x-0 lg:top-0 lg:pl-3 mt-2 lg:mt-0 w-40 transition-all duration-300 origin-top lg:origin-left z-50 ${
                         activeDropdown === item.id
                           ? 'opacity-100 scale-100 pointer-events-auto'
                           : 'opacity-0 scale-95 pointer-events-none'
                       }`}
                     >
-                      {genderOptions.map((opt) => {
-                        const isSelected =
-                          active &&
-                          ((opt.value === 'All' && !activeFilter.gender) ||
-                            (opt.value !== 'All' && activeFilter.gender === opt.value));
+                      <div className="rounded-2xl glass-panel py-2 shadow-2xl">
+                        {genderOptions.map((opt) => {
+                          const isSelected =
+                            active &&
+                            ((opt.value === 'All' && !activeFilter.gender) ||
+                              (opt.value !== 'All' && activeFilter.gender === opt.value));
 
-                        return (
-                          <button
-                            key={opt.label}
-                            onClick={() => handleDropdownSelect(item.id, opt.value)}
-                            className={`w-full text-left px-4 py-2 text-xs font-sans transition-colors duration-200 cursor-pointer ${
-                              isSelected
-                                ? 'text-accent-gold font-semibold bg-accent-gold/10'
-                                : 'text-gray-300 hover:text-accent-gold hover:bg-white/5'
-                            }`}
-                          >
-                            {opt.label}
-                          </button>
-                        );
-                      })}
+                          return (
+                            <button
+                              key={opt.label}
+                              onClick={() => handleDropdownSelect(item.id, opt.value)}
+                              className={`w-full text-left px-4 py-2 text-xs font-sans transition-colors duration-200 cursor-pointer ${
+                                isSelected
+                                  ? 'text-accent-gold font-semibold bg-accent-gold/10'
+                                  : 'text-gray-300 hover:text-accent-gold hover:bg-white/5'
+                              }`}
+                            >
+                              {opt.label}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                   )}
                 </div>
