@@ -7,10 +7,10 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <div className="w-full max-w-[500px] aspect-square rounded-[32px] glass-panel glass-panel-hover p-4 md:p-6 flex flex-col justify-between overflow-hidden relative group select-none">
+    <div className="w-full max-w-[500px] rounded-[32px] glass-panel glass-panel-hover p-4 md:p-6 flex flex-col justify-between overflow-hidden relative group select-none">
       
       {/* 1:1 Product Image Container */}
-      <div className="w-full aspect-[4/3] sm:aspect-square overflow-hidden rounded-[20px] bg-gradient-to-br from-black/40 to-white/5 relative border border-white/5">
+      <div className="w-full aspect-square overflow-hidden rounded-[20px] bg-gradient-to-br from-black/40 to-white/5 relative border border-white/5">
         <img
           src={product.imageUrl}
           alt={product.name}
